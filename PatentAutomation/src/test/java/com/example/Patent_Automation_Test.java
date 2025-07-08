@@ -1,9 +1,12 @@
 package com.example;
 
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,9 +29,10 @@ public class Patent_Automation_Test {
 		options.addArguments("--incognito");
 
 		WebDriver driver = new ChromeDriver(options);
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 
 		try {
+
 			driver.get("https://patinformed.wipo.int/");
 			driver.manage().window().maximize();
 			driver.manage().deleteAllCookies();
@@ -72,11 +76,22 @@ public class Patent_Automation_Test {
 
 					LocalDate d1 = LocalDate.parse(allDates.get(0));
 					LocalDate d2 = LocalDate.parse(allDates.get(1));
+
+					Period periodcalculate = Period.between(d2, d1);
+					;
+					int differenceinyears = periodcalculate.getYears();
+					int differenceinmonth = periodcalculate.getMonths();
+					int differenceindays = periodcalculate.getDays();
+					System.out.println("Differnce between in both date" + " " + differenceinyears + "years" + " "
+							+ differenceinmonth + " month" + " " + differenceindays + "days");
+
+					long diffofyears = Math.abs(ChronoUnit.YEARS.between(d1, d2));
+					long diffofmonth = Math.abs(ChronoUnit.MONTHS.between(d1, d2));
 					long daysDiff = Math.abs(ChronoUnit.DAYS.between(d1, d2));
-					System.out.println("Dates found: " + allDates);
-					System.out.println("Date 1:" + d1);
-					System.out.println("Date 2: " + d2);
-					System.out.println("Difference in days: " + daysDiff);
+					System.out.println("years found: " + allDates);
+					System.out.println("year1 :" + d1);
+					System.out.println("year2: " + d2);
+					System.out.println("year: " + diffofyears + " " + "month" + diffofmonth + " " + "days" + daysDiff);
 
 					break;
 				} else {
